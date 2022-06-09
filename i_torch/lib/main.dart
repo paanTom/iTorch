@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:torch_control/torch_control.dart';
 
 void main() {
@@ -36,6 +37,8 @@ class _MainScreenState extends State<MainScreen> {
   final light = Colors.white;
   late Color appBackgroundColor;
 
+  late double iconSize = (MediaQuery.of(context).size.width) * (30 / 100);
+
   @override
   void initState() {
     super.initState();
@@ -64,16 +67,27 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: appBackgroundColor,
         body: Center(
-          child: ElevatedButton(
-              onPressed: () async {
-                if (await isFlashAvailable()) {
-                  appBackgroundColor =
-                      (await TorchControl.toggle()) ? light : spaceBlack;
-                  setStatusBarIconColorToDark = TorchControl.isOn;
-                  setState(() {});
-                }
-              },
-              child: const Text("iTorch")),
+          child: Theme(
+            data: ThemeData(
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent),
+            child: InkWell(
+                onTap: () async {
+                  if (await isFlashAvailable()) {
+                    appBackgroundColor =
+                        (await TorchControl.toggle()) ? light : spaceBlack;
+                    setStatusBarIconColorToDark = TorchControl.isOn;
+                    setState(() {});
+                  }
+                },
+                child: SvgPicture.asset(
+                  TorchControl.isOn
+                      ? 'assets/icons/torch_on.svg'
+                      : 'assets/icons/torch_off.svg',
+                  height: iconSize,
+                  width: iconSize,
+                )),
+          ),
         ),
       );
 }

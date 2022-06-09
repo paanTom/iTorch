@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" />
    <application
-        android:label="i_torch"
+        android:label="iTorch"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
