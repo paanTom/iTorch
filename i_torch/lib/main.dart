@@ -54,13 +54,9 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   set setStatusBarIconColorToDark(bool isTorchOn) {
-    if (isTorchOn) {
-      SystemChrome.setSystemUIOverlayStyle(
-          const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark));
-      return;
-    }
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarIconBrightness:
+            isTorchOn ? Brightness.dark : Brightness.light));
   }
 
   @override
