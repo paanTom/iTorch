@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:i_torch/utils/app_colors.dart';
 import 'package:torch_control/torch_control.dart';
 
 void main() {
@@ -33,8 +34,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final spaceBlack = const Color(0xFF1D1D1F);
-  final light = Colors.white;
+  final spaceBlack = AppColors.spaceBlack;
+  final spaceLight = AppColors.spaceLight;
   late Color appBackgroundColor;
 
   late double iconSize = (MediaQuery.of(context).size.width) * (30 / 100);
@@ -46,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
       appBackgroundColor = spaceBlack;
       return;
     }
-    appBackgroundColor = light;
+    appBackgroundColor = spaceLight;
   }
 
   Future<bool> isFlashAvailable() async {
@@ -71,7 +72,7 @@ class _MainScreenState extends State<MainScreen> {
                 onTap: () async {
                   if (await isFlashAvailable()) {
                     appBackgroundColor =
-                        (await TorchControl.toggle()) ? light : spaceBlack;
+                        (await TorchControl.toggle()) ? spaceLight : spaceBlack;
                     setStatusBarIconColorToDark = TorchControl.isOn;
                     setState(() {});
                   }
