@@ -6,13 +6,16 @@ import 'package:torch_control/torch_control.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-
+  lockScreenToPortrait();
+  setStatusBarToTransparent();
   runApp(const ITorch());
 }
+
+void lockScreenToPortrait() => SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+
+void setStatusBarToTransparent() => SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
 class ITorch extends StatelessWidget {
   const ITorch({Key? key}) : super(key: key);
@@ -50,11 +53,11 @@ class _MainScreenState extends State<MainScreen> {
     appBackgroundColor = spaceLight;
   }
 
-  Future<bool> isFlashAvailable() async {
+  Future<bool> _isFlashAvailable() async {
     return await TorchControl.ready();
   }
 
-  set setStatusBarIconColorToDark(bool isTorchOn) {
+  set _setStatusBarIconColorToDark(bool isTorchOn) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarIconBrightness:
             isTorchOn ? Brightness.dark : Brightness.light));
@@ -70,10 +73,10 @@ class _MainScreenState extends State<MainScreen> {
                 splashColor: Colors.transparent),
             child: InkWell(
                 onTap: () async {
-                  if (await isFlashAvailable()) {
+                  if (await _isFlashAvailable()) {
                     appBackgroundColor =
                         (await TorchControl.toggle()) ? spaceLight : spaceBlack;
-                    setStatusBarIconColorToDark = TorchControl.isOn;
+                    _setStatusBarIconColorToDark = TorchControl.isOn;
                     setState(() {});
                   }
                 },
