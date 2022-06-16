@@ -67,26 +67,24 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: appBackgroundColor,
         body: Center(
-          child: Theme(
-            data: ThemeData(
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent),
-            child: InkWell(
-                onTap: () async {
-                  if (await _isFlashAvailable()) {
-                    appBackgroundColor =
-                        (await TorchControl.toggle()) ? spaceLight : spaceBlack;
-                    _setStatusBarIconColorToDark = TorchControl.isOn;
-                    setState(() {});
-                  }
-                },
-                child: SvgPicture.asset(
-                  TorchControl.isOn
-                      ? 'assets/icons/torch_on.svg'
-                      : 'assets/icons/torch_off.svg',
-                  height: iconSize,
-                  width: iconSize,
-                )),
+          child: InkWell(
+            onTap: () async {
+              if (await _isFlashAvailable()) {
+                appBackgroundColor =
+                    (await TorchControl.toggle()) ? spaceLight : spaceBlack;
+                _setStatusBarIconColorToDark = TorchControl.isOn;
+                setState(() {});
+              }
+            },
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            child: SvgPicture.asset(
+              TorchControl.isOn
+                  ? 'assets/icons/torch_on.svg'
+                  : 'assets/icons/torch_off.svg',
+              height: iconSize,
+              width: iconSize,
+            ),
           ),
         ),
       );
